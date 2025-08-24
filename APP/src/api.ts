@@ -1,7 +1,7 @@
 import axios, { type AxiosInstance } from "axios"
 import { useCookies } from "react-cookie";
 
-
+export const baseUrl = "http://localhost:5555";
 
 const useApi = (): AxiosInstance => {
     const [cookies] = useCookies(['token']);
@@ -19,6 +19,7 @@ const useApi = (): AxiosInstance => {
 
 
 export default useApi
+
 
 
 

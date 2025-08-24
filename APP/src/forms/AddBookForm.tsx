@@ -9,7 +9,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import e from "cors";
 
 const StyledForm = styled.form`
   display: flex;
@@ -48,7 +47,7 @@ export default function AddBookForm({ onAddBook = () => {} }: any) {
     formData.append("epub", file);
 
     api.post("/new-book", formData).then((data) => {
-      console.log(data.data);
+      onAddBook(data.data.id);
     });
   };
 

@@ -1,0 +1,23 @@
+services:
+  api:
+    build: ./API
+    command: npm run dev
+    ports: 
+      - "5555:5555"
+    volumes:
+      - ./API:/API
+  app:
+    build: ./APP
+    command: npx vite
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./APP:/APP  
+  mongodb:
+    image: mongo
+    ports:
+      - "27016:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+        

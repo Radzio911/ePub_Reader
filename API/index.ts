@@ -13,7 +13,7 @@ import cors from "cors";
 
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/Book");
+mongoose.connect("mongodb://root:example@localhost:27016/Book");
 
 const secretToken: string = "dhashdkgsvbcxjkm098ur3uyhusgfjdbkjkjcx";
 app.use(express.json());
@@ -48,8 +48,9 @@ app.post("/login", async (req, res) => {
 
 app.get("/my-books", async (req, res) => {
   const user = await User.findById(req.user);
-  const myBooks = await Book.find({ user });
-  res.json({ books: myBooks });
+  if(user){  const myBooks = await Book.find({ user });
+  res.json({ books: myBooks });}
+  else{res.status(401).json({})}
 });
 
 app.get("/search-book-titles", async (req, res) => {
@@ -93,16 +94,10 @@ app.post("/new-book", formData.parse(), async (req, res) => {
   res.json({ id: book._id });
 });
 
-app.get("/book-file", async (req, res) => {
+app.get("/book-file/file.epub", async (req, res) => {
   const { id } = req.query;
+  console.log(id)
   const book = await Book.findById(id);
-  const user = await User.findById(req.user);
-
-  if ((book?.user as any).toHexString() != user?._id.toHexString()) {
-    res.json({ error: "That book is not yours!" });
-    return;
-  }
-
   if(book?.file){
     res.sendFile(book.file, { root: "." });
   }

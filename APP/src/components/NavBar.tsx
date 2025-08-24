@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-
 import Container from "@mui/material/Container";
-
 import MenuItem from "@mui/material/MenuItem";
 import BookIcon from "@mui/icons-material/Book";
+import { useCookies } from "react-cookie";
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -20,7 +20,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -54,30 +54,49 @@ function ResponsiveAppBar() {
             BOOK
           </Typography>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <MenuItem
-              onClick={() => {
-                navigate("/addBook");
-              }}
-            >
-              <Typography sx={{ textAlign: "center" }}>{"Add Book"}</Typography>
-            </MenuItem>
+            {cookies.token && (
+              <MenuItem
+                onClick={() => {
+                  navigate("/addBook");
+                }}
+              >
+                <Typography sx={{ textAlign: "center" }}>
+                  {"Add Book"}
+                </Typography>
+              </MenuItem>
+            )}
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <MenuItem
-              onClick={() => {
-                navigate("/login");
-              }}
-            >
-              <Typography sx={{ textAlign: "center" }}>{"Login"}</Typography>
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                navigate("/register");
-              }}
-            >
-              <Typography sx={{ textAlign: "center" }}>{"Register"}</Typography>
-            </MenuItem>
+            {!cookies.token && (
+              <MenuItem
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                <Typography sx={{ textAlign: "center" }}>{"Login"}</Typography>
+              </MenuItem>
+            )}
+            {!cookies.token && (
+              <MenuItem
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                <Typography sx={{ textAlign: "center" }}>
+                  {"Register"}
+                </Typography>
+              </MenuItem>
+            )}
+            {cookies.token && (
+              <MenuItem
+                onClick={() => {
+                  removeCookie("token");
+                }}
+              >
+                <Typography sx={{ textAlign: "center" }}>{"Logut"}</Typography>
+              </MenuItem>
+            )}
           </Box>
         </Toolbar>
       </Container>
