@@ -5,14 +5,14 @@ services:
     ports: 
       - "5555:5555"
     volumes:
-      - ./API:/API
+      - ./API:/api
   app:
     build: ./APP
-    command: npx vite
+    command: npm run dev
     ports:
       - "5173:5173"
     volumes:
-      - ./APP:/APP  
+      - ./APP:/app
   mongodb:
     image: mongo
     ports:

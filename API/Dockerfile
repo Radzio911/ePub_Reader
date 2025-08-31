@@ -1,9 +1,11 @@
-FROM node:24.0.2-alpine
+FROM node:24-alpine
 
-WORKDIR /API
+WORKDIR /api
 
-COPY package.json /API/
+COPY package*.json ./
+RUN npm install --cpu=x64 --os=linux --libc=musl sharp
+RUN npm install 
 
-COPY package-lock.json /API/
+COPY . .
 
-RUN npm install --include=optional sharp
+EXPOSE 5555

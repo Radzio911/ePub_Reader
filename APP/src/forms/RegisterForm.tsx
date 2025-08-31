@@ -9,7 +9,7 @@ import { useCookies } from "react-cookie";
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 10px;
   width: 300px;
 `;
@@ -26,14 +26,16 @@ export default function RegisterForm({ onRegister = () => {} }: any) {
       .post("/register", JSON.stringify({ username, password, email }))
       .then((data) => {
         if (data.data.id) {
-          onRegister();
+          onRegister(username, password);
         }
       });
   };
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <Typography variant="h5">RegisterForm</Typography>
+      <Typography align="center" variant="h5">
+        RegisterForm
+      </Typography>
       <TextField
         variant="filled"
         label="Username"

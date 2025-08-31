@@ -1,4 +1,4 @@
-import { useState, type BaseSyntheticEvent } from "react";
+import { useEffect, useState, type BaseSyntheticEvent } from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -9,12 +9,14 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Autocomplete } from "@mui/material";
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 300px;
+  align-items: stretch;
 `;
 
 const VisuallyHiddenInput = styled("input")({
@@ -33,7 +35,21 @@ export default function AddBookForm({ onAddBook = () => {} }: any) {
   const api = useApi();
   const [title, setTitle] = useState("");
   const [files, setFiles] = useState<FileList | null>();
-  const [category, setCategory] = useState("category1");
+  const [category, setCategory] = useState("");
+  const [bookCategories, setBookCategories] = useState([]);
+  const [booktitles, setBookTitles] = useState([]);
+
+  useEffect(() => {
+    api.get(`/search-book-titles?query=${title}`).then((data) => {
+      setBookTitles(data.data.titles);
+    });
+  }, [title]);
+
+  useEffect(() => {
+    api.get("/categories").then((data) => {
+      setBookCategories(data.data.bookCategories);
+    });
+  }, []);
 
   const handleSubmit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
@@ -54,14 +70,22 @@ export default function AddBookForm({ onAddBook = () => {} }: any) {
   return (
     <StyledForm onSubmit={handleSubmit}>
       <Typography variant="h5">AddBook</Typography>
-      <TextField
-        variant="filled"
-        label="Title"
-        value={title}
-        onChange={(event) => {
-          setTitle(event.target.value);
-        }}
-      ></TextField>
+      <Autocomplete
+        freeSolo
+        options={booktitles}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            variant="filled"
+            label="Title"
+            value={title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+            }}
+          ></TextField>
+        )}
+      />
       <Button
         component="label"
         role={undefined}
@@ -86,7 +110,9 @@ export default function AddBookForm({ onAddBook = () => {} }: any) {
             setCategory(event.target.value);
           }}
         >
-          <MenuItem value={"category1"}>Kategoria</MenuItem>
+          {bookCategories.map((category) => (
+            <MenuItem value={category}>{category}</MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Button variant="contained" type="submit">

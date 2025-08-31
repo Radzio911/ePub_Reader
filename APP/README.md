@@ -1,69 +1,18 @@
-# React + TypeScript + Vite
+- Formularze logowania powinny być szersze
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Jezeli ksiązka nie ma okładki przy zapytaniu o nią to powinien zostać zwrócony obraz
+  `https://i.pinimg.com/236x/b8/bd/3f/b8bd3f935d3c7270a454da6903096706.jpg`
 
-Currently, two official plugins are available:
+- W formularzu dodawania ksiązki kategorie powinny byc pobierane z api, tam to moze byc zwykla lista
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Input nazwy powinien miec podpowiedzi z api: `/search-book-titles`
+  [https://mui.com/material-ui/react-autocomplete/#combo-box]
 
-## Expanding the ESLint configuration
+- Po zalogowaniu powinno nas przenieść na stronę główną a jezeli sie nie uda to wyświetliś odpowiedni komunikat.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Przy poprawnej rejestracji powinno nas od razu zalogowac - nie w api tylko w app (drugi request)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- W menu gdy jesteśmy zaloagowani powinno być widać naszą nazwę uzytkownika:
+  `📘BOOK` <-- --> `<username> | Logout`
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Kolor strony (ten co jest teraz niebieski) powinien być wybierany losowo przy kazdym odświezeniu strony z listy: `["#ff4a47ff", "#922ddaff", "#3e50bfff", "#00897b", "#fdd835"]` - link do dokumentacji: [https://mui.com/material-ui/customization/theming/?utm_source=chatgpt.com#css-theme-variables]

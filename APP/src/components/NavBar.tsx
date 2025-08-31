@@ -7,10 +7,13 @@ import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 import BookIcon from "@mui/icons-material/Book";
 import { useCookies } from "react-cookie";
+import { useContext } from "react";
+import { UserContext } from "../userContext/Usercontext";
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const { user } = useContext(UserContext);
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -89,13 +92,26 @@ function ResponsiveAppBar() {
               </MenuItem>
             )}
             {cookies.token && (
-              <MenuItem
-                onClick={() => {
-                  removeCookie("token");
-                }}
-              >
-                <Typography sx={{ textAlign: "center" }}>{"Logut"}</Typography>
-              </MenuItem>
+              <>
+                <Box
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Typography sx={{ textAlign: "center" }}>
+                    {user?.username}
+                  </Typography>
+                </Box>
+                <MenuItem
+                  onClick={() => {
+                    removeCookie("token");
+                  }}
+                >
+                  <Typography sx={{ textAlign: "center" }}>
+                    {"Logout"}
+                  </Typography>
+                </MenuItem>
+              </>
             )}
           </Box>
         </Toolbar>

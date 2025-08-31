@@ -7,9 +7,8 @@ export async function extractCover(epubPath: string, outputImagePath: string) {
   const book: any = new epub(epubPath);
 
   book.on("end", async () => {
-    const coverId = book.metadata.cover;
+    try{const coverId = book.metadata.cover;
     const coverFile = book.manifest[coverId].href;
-
     fs.createReadStream(epubPath)
       .pipe(unzipper.Parse())
       .on("entry", async function (entry) {
@@ -21,7 +20,8 @@ export async function extractCover(epubPath: string, outputImagePath: string) {
         } else {
           entry.autodrain();
         }
-      });
+      });}
+      catch{}
   });
 
   book.parse();

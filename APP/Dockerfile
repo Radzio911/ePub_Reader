@@ -1,14 +1,11 @@
-FROM node:alpine
+FROM node:24-alpine
 
-WORKDIR /APP
+WORKDIR /app
 
-
-COPY package.json /APP/
-
-
+COPY package*.json ./
 RUN npm install
 
-RUN npm install vite
+COPY . .
 
-
+EXPOSE 5173
 

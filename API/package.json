@@ -5,9 +5,9 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "dev": "nodemon index.ts"
+    "dev": "npx nodemon index.ts"
   },
   "dependencies": {
     "@types/cors": "^2.8.19",

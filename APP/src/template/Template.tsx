@@ -1,5 +1,10 @@
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import NavBar from "../components/NavBar";
+import { UserContext } from "../userContext/Usercontext";
+import { useEffect, useState } from "react";
+import useApi from "../api";
+import { createTheme } from "@mui/material/styles";
+import { purple } from "@mui/material/colors";
 
 const StyledContent = styled.div`
   display: flex;
@@ -12,10 +17,17 @@ const StyledContent = styled.div`
 type TemplateProps = { children: any };
 
 export default function Template({ children, ...props }: TemplateProps) {
+  const [user, setUser] = useState<any>({});
+  const api = useApi();
+  useEffect(() => {
+    api.get("/user").then((data) => {
+      setUser(data.data.user);
+    });
+  }, []);
   return (
-    <div>
+    <UserContext.Provider value={{ user, setUser }}>
       <NavBar></NavBar>
       <StyledContent>{children}</StyledContent>
-    </div>
+    </UserContext.Provider>
   );
 }

@@ -13,7 +13,7 @@ import cors from "cors";
 
 const app = express();
 
-mongoose.connect("mongodb://root:example@localhost:27016/Book");
+mongoose.connect("mongodb://localhost:27017/Book");
 
 const secretToken: string = "dhashdkgsvbcxjkm098ur3uyhusgfjdbkjkjcx";
 app.use(express.json());
@@ -40,11 +40,18 @@ app.post("/login", async (req, res) => {
   });
   if (user) {
     const token = JWT.sign({ id: user._id }, secretToken);
-    res.json({ token: token, loginin: true });
+    res.json({ token: token, loginin: true, user: {username: user.username, email: user.email} });
   } else {
     res.json({ loginin: false });
   }
 });
+
+app.get("/user", async (req, res)=> {
+  const user = await User.findById(req.user);
+  res.json({loginin: !!user, user: {username: user?.username, email: user?.email} });
+
+
+})
 
 app.get("/my-books", async (req, res) => {
   const user = await User.findById(req.user);
@@ -106,7 +113,31 @@ app.get("/book-file/file.epub", async (req, res) => {
 
 app.get("/cover", async (req, res) => {
   const { id } = req.query;
-  res.sendFile(`covers/${id}.jpg`, { root: "." });
+  if(fs.existsSync(`covers/${id}.jpg`))
+    res.sendFile(`covers/${id}.jpg`, { root: "." })
+  else{res.sendFile(`covers/default.jpg`, {root:"."})}
 });
+
+
+app.get("/categories", async (req, res)=> {
+const bookCategories = [
+  "Fiction",
+  "Non-Fiction",
+  "Science Fiction",
+  "Fantasy",
+  "Mystery",
+  "Thriller",
+  "Biography",
+  "Self-Help",
+  "History",
+  "Romance",
+  "Horror",
+  "Philosophy",
+  "Science",
+  "Poetry",
+  "Travel"
+];
+res.json({bookCategories})
+})
 
 app.listen(5555);
