@@ -38,6 +38,7 @@ app.post("/login", async (req, res) => {
     username: username,
     password: md5(password),
   });
+   console.log(user)
   if (user) {
     const token = JWT.sign({ id: user._id }, secretToken);
     res.json({ token: token, loginin: true, user: {username: user.username, email: user.email} });
@@ -97,7 +98,7 @@ app.post("/new-book", formData.parse(), async (req, res) => {
   const file = `files/${v4()}.epub`;
   fs.copyFileSync(epub.path, file);
   const book = await Book.create({ category, file, title, user });
-  extractCover(file, `covers/${book._id}.jpg`);
+  await extractCover(file, `covers/${book._id}.jpg`);
   res.json({ id: book._id });
 });
 

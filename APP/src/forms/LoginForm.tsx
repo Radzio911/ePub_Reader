@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import styled from "styled-components";
 import useApi from "../api";
 import { useCookies } from "react-cookie";
-import { UserContext } from "../userContext/Usercontext";
+import { UserContext } from "../context/Usercontext";
 
 const StyledForm = styled.form`
   display: flex;
@@ -38,6 +38,7 @@ export default function LoginForm({ onLogin = () => {} }: any) {
     api.post("/login", JSON.stringify({ username, password })).then((data) => {
       if (data.data.loginin) {
         setUser && setUser(data.data.user);
+        console.log(data.data.user);
         setCookie("token", data.data.token);
       }
     });

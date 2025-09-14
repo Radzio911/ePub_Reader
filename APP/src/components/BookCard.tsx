@@ -28,6 +28,7 @@ export default function BookCard({
 
     new JsFileDownloader({
       url: fileUrl,
+      filename: `${title}.epub`,
     })
       .then(function () {
         // Called when download ended

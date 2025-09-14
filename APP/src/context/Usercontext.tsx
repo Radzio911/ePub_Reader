@@ -7,5 +7,5 @@ type User = {
 
 export const UserContext = createContext<{
   user?: User;
-  setUser?: (user?: User) => void;
+  setUser?: (user?: User | null) => void;
 }>({});

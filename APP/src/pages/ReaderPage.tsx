@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
 const StyledWrapper = styled.div`
-  height: 500px;
+  height: calc(100vh - 64px);
   width: 100%;
 `;
 

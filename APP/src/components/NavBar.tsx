@@ -8,22 +8,25 @@ import MenuItem from "@mui/material/MenuItem";
 import BookIcon from "@mui/icons-material/Book";
 import { useCookies } from "react-cookie";
 import { useContext } from "react";
-import { UserContext } from "../userContext/Usercontext";
+import { UserContext } from "../context/Usercontext";
+import { useLanguage } from "../context/languageContext";
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const language = useLanguage();
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <BookIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
+            style={{ backgroundColor: "transparent", border: 0 }}
+            onClick={() => navigate("/")}
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component="button"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -34,28 +37,10 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            BOOK
+            {language.Book}
           </Typography>
 
           <BookIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            BOOK
-          </Typography>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {cookies.token && (
               <MenuItem
@@ -64,7 +49,7 @@ function ResponsiveAppBar() {
                 }}
               >
                 <Typography sx={{ textAlign: "center" }}>
-                  {"Add Book"}
+                  {language.AddBook}
                 </Typography>
               </MenuItem>
             )}
@@ -77,7 +62,9 @@ function ResponsiveAppBar() {
                   navigate("/login");
                 }}
               >
-                <Typography sx={{ textAlign: "center" }}>{"Login"}</Typography>
+                <Typography sx={{ textAlign: "center" }}>
+                  {language.Login}
+                </Typography>
               </MenuItem>
             )}
             {!cookies.token && (
@@ -105,10 +92,11 @@ function ResponsiveAppBar() {
                 <MenuItem
                   onClick={() => {
                     removeCookie("token");
+                    setUser && setUser(null);
                   }}
                 >
                   <Typography sx={{ textAlign: "center" }}>
-                    {"Logout"}
+                    {language.Logout}
                   </Typography>
                 </MenuItem>
               </>
