@@ -9,21 +9,23 @@ import { useEffect, useState } from "react";
 import useApi from "./api";
 import { UserContext } from "./context/Usercontext";
 import "./global.css";
-import { LanguageContext, type LanguageName } from "./context/languageContext";
+import { LanguageContext, type LanguageName } from "./context/LanguageContext";
 import polish from "./languages/polish";
 
-const colors = ["#ff4a47ff", "#922ddaff", "#3e50bfff", "#00897b", "#fdd835"];
+const colors = ["#ff4a47ff", "#922ddaff", "#3e50bfff", "#00897b", "#a0881d"];
 
 const colorIndex = Math.round(Math.random() * 4);
 
 const theme = createTheme({
-  palette: { primary: { main: colors[colorIndex] } },
+  palette: {
+    primary: { main: colors[colorIndex] },
+  },
 });
 
 function App() {
   const api = useApi();
   const [user, setUser] = useState<any>(null);
-  const [name, setName] = useState<LanguageName>("polish");
+  const [languageName, setLanguageName] = useState<LanguageName>("polish");
   useEffect(() => {
     api.get("/user").then((data) => {
       if (data.data.user.username) setUser(data.data.user);
@@ -34,7 +36,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <LanguageContext.Provider value={{ name, setName }}>
+      <LanguageContext.Provider value={{ languageName, setLanguageName }}>
         <ThemeProvider theme={theme}>
           <BrowserRouter>
             <Routes>

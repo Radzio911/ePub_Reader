@@ -1,23 +1,24 @@
 import { createContext, useContext } from "react";
 import polish from "../languages/polish";
+import english from "../languages/english";
 
 
-const languages = {polish}
+const languages = {polish, english}
 
- export type LanguageName = "polish"
+ export type LanguageName = "polish" | "english"
 
 export const LanguageContext = createContext<{
-  name: LanguageName;
-  setName: (name: LanguageName) => void;
-}>({name: "polish", setName: ()=>{}});
+  languageName: LanguageName;
+  setLanguageName: (languageName: LanguageName) => void;
+}>({languageName: "polish", setLanguageName: ()=>{}});
 
 
 
 export const useLanguage = () => {
 
-    const { name } = useContext(LanguageContext)
+    const { languageName } = useContext(LanguageContext)
 
-    return languages[name]
+    return languages[languageName]
 
 
 

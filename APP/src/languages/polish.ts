@@ -7,7 +7,8 @@ export default {
     Book: "Ksiazka",
     AddBook: "Dodaj Ksiazke",
     Login: "Zaloguj",
-    Logout: "Wyloguj"
+    Logout: "Wyloguj",
+    Register: "Rejstracja"
 
 
 }

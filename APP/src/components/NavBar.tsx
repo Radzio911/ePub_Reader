@@ -9,13 +9,19 @@ import BookIcon from "@mui/icons-material/Book";
 import { useCookies } from "react-cookie";
 import { useContext } from "react";
 import { UserContext } from "../context/Usercontext";
-import { useLanguage } from "../context/languageContext";
+import { LanguageContext, useLanguage } from "../context/LanguageContext";
+import { FormControl, InputLabel, Select } from "@mui/material";
+import polish from "../languages/polish";
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const { user, setUser } = useContext(UserContext);
   const language = useLanguage();
+  const { languageName, setLanguageName } = useContext(LanguageContext);
+  const handleChangeLanguage = (event: any) => {
+    setLanguageName(event.target.value);
+  };
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -54,7 +60,17 @@ function ResponsiveAppBar() {
               </MenuItem>
             )}
           </Box>
+
           <Box sx={{ flexGrow: 1 }} />
+          <Select
+            style={{ color: "#ffffff" }}
+            value={languageName}
+            label="Language"
+            onChange={handleChangeLanguage}
+          >
+            <MenuItem value={"polish"}>Polski</MenuItem>
+            <MenuItem value={"english"}>English</MenuItem>
+          </Select>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {!cookies.token && (
               <MenuItem
@@ -74,7 +90,7 @@ function ResponsiveAppBar() {
                 }}
               >
                 <Typography sx={{ textAlign: "center" }}>
-                  {"Register"}
+                  {language.Register}
                 </Typography>
               </MenuItem>
             )}
